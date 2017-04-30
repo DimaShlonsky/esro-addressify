@@ -1,4 +1,5 @@
 (function(options){
+	var addressFormat = options.addressFormat;
 	$(options.targetField).append(
 		$("<input>", {type:"text", id:"addresifyInput"}).autocomplete({
 			source: function(req, callback){
@@ -26,7 +27,7 @@
 										city:e.city.name || undefined,
 										state:e.state.name || undefined,
 										zip:e.zip || undefined,
-										country: e.country.name || undefined
+										country: e.country && e.country.name || undefined
 									}),
 									value: e
 								};
@@ -49,10 +50,13 @@
 				$("#fldCity").val(address.city.name);
 				$("#fldState").val(address.state.id);
 				$("#fldZipCode").val(address.zip);
-				$("#fldCountry").val(address.country.id);
+				if (address.country){
+					$("#fldCountry").val(address.country.id);
+				}
 			}
 		})
 	);
 })({
-	targetField : $(".fieldCaption[tix\\:for=AddressCaption]")
+	targetField : $(".fieldCaption[data-for=AddressCaption]"),
+	addressFormat: "{address1} {address2} {address3}, {city} {zip}, {state}"
 })
